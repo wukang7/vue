@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./lib/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <div>
+            <label>
+                id:<input type="text" v-model="id">
+            </label>
+            <label>
+                <!-- @keyup.enter="add" 松开键盘,并且按下回车就会触发add方法 -->
+                name:<input type="text" v-model="name" @keyup.enter="add">
+            </label>
+            <label>
+                <input type="button" value="添加" @click="add">
+            </label>
+            <label>
+                <!-- 调用自定义指令v-focus -->
+                <input type="text" v-model="keywords" v-focus v-color="'springgreen'">
+                <input type="button" value="搜索" @click="serach(keywords)" >
+            </label>
+
+        </div>
+
+
+        <table border="1" style="margin-top: 20px;">
+            <thead>
+                <tr>
+                    <th>id</th>
+                    <th>name</th>
+                    <th>ctime</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="(item, index) in serach(keywords)" :key="index">
+                    <td>{{item.id}}</td>
+                    <td>{{item.name}}</td>
+                    <td>{{item.ctime}}</td>
+                    <td><a href="" @click.prevent="del(item.id)">删除</a></td>
+                </tr>
+            </tbody>
+
+        </table>
+    </div>
+    <script>
+
+
+
+
+
+        // 自定义全局键盘修饰符
+        // Vue.config.keywords.f2 = "113";
+
+        //定义一个自定指令,名字叫focus,在调用的时候,加上v-前缀进行调用 
+        Vue.directive('focus', {
+            // 只调用一次，指令第一次绑定到元素时调用。在这里可以进行一次性的初始化设置
+            // 加载到内存 调用bind  和样式相关的,放入bind里面
+            bind: function (el) {
+                // console.log("bind")
+                // el.focus();
+            },
+
+            // 被绑定元素插入父节点时调用 (仅保证父节点存在，但不一定已被插入文档中)
+            // 从内存到页面, 和js行为相关的一般放inserted里面
+            inserted: function (el) {
+                el.focus();
+            },
+
+            updated: function (el) {
+                // el.focus();
+            }
+        })
+
+
+
+        Vue.directive('color', {
+            // 只调用一次，指令第一次绑定到元素时调用。在这里可以进行一次性的初始化设置
+            // 加载到内存 调用bind  和样式相关的,放入bind里面
+
+            // binding是一个对象,里面有自定义属性的值
+            bind: function (el, binding) {
+                console.log(binding)
+                el.style.color = binding.value;
+            }
+        })
+
+
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                id: "",
+                name: "",
+                keywords: "",
+                list: [
+                    { id: 1, name: "奔驰", ctime: new Date() },
+                    { id: 2, name: "宝马", ctime: new Date() },
+                ]
+            },
+            methods: {
+                add() {
+                    var obj = { id: this.id, name: this.name, ctime: new Date() };
+                    this.list.push(obj);
+                    this.id = '';
+                    this.name = '';
+                },
+                del(id) {
+                    // 根据id查找索引
+                    // 根据索引删除对应的对象
+
+                    // 方法二
+                    var index = this.list.findIndex(item => {
+                        if (item.id == id) {
+                            return true
+                        }
+                    })
+                    console.log(index)
+                    // this.list.splice(index, 1)
+
+
+                    // 方法一
+                    // 在数组some方法中,如果return true,就立刻终止这个数组的后续循环
+                    this.list.some((v, i) => {
+                        if (v.id == id) {
+                            this.list.splice(i, 1)
+                            return true
+                        }
+                    })
+
+                },
+
+
+
+                serach(keywords) {
+                    // 第一种方法
+                    var newlist = [];
+                    this.list.forEach(item => {
+                        //  item.name.indexOf(keywords) != -1 名字包含就push到新数组中去
+                        if (item.name.indexOf(keywords) != -1) {
+                            newlist.push(item)
+                        }
+                    });
+                    return newlist
+
+                    // 第二种方法
+                    //  var newlist = this.list.filter(item=>{
+                    //      if (item.name.includes(keywords)) {
+                    //          return item
+                    //      }
+                    //  })
+                    //  return newlist
+                }
+
+
+
+            }
+        });
+    </script>
+</body>
+
+</html>
