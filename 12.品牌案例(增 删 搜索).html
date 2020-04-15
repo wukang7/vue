@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./lib/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <div>
+            <label>
+                id:<input type="text" v-model="id">
+            </label>
+            <label>
+                name:<input type="text" v-model="name">
+            </label>
+            <label>
+                <input type="button" value="添加" @click="add">
+            </label>
+            <label>
+                <input type="text" v-model="keywords">
+                <input type="button" value="搜索" @click="serach(keywords)">
+            </label>
+
+        </div>
+
+
+        <table border="1" style="margin-top: 20px;">
+            <thead>
+                <tr>
+                    <th>id</th>
+                    <th>name</th>
+                    <th>ctime</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="(item, index) in serach(keywords)" :key="index">
+                    <td>{{item.id}}</td>
+                    <td>{{item.name}}</td>
+                    <td>{{item.ctime}}</td>
+                    <td><a href="" @click.prevent="del(item.id)">删除</a></td>
+                </tr>
+            </tbody>
+
+        </table>
+    </div>
+    <script>
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                id: "",
+                name: "",
+                keywords:"",         
+                list: [
+                    { id: 1, name: "奔驰", ctime: new Date() },
+                    { id: 2, name: "宝马", ctime: new Date() },
+                ]
+            },
+            methods: {
+                add(){
+                    var obj = { id:this.id,name:this.name,ctime:new Date()};
+                    this.list.push(obj);
+                    this.id='';
+                    this.name='';
+                },
+                del(id){
+                    // 根据id查找索引
+                    // 根据索引删除对应的对象
+
+                    // 方法二
+                    var index = this.list.findIndex(item => {
+                        if (item.id == id) {
+                            return true
+                        }
+                    })
+                    console.log(index)
+                    // this.list.splice(index, 1)
+
+
+                    // 方法一
+                    // 在数组some方法中,如果return true,就立刻终止这个数组的后续循环
+                    this.list.some((v, i) =>{
+                        if (v.id == id) {
+                            this.list.splice(i, 1)
+                            return true
+                        }
+                    })
+                    
+                },
+                
+
+                
+                serach(keywords) {
+                    // 第一种方法
+                     var newlist=[];
+                     this.list.forEach(item => {
+                        //  item.name.indexOf(keywords) != -1 名字包含就push到新数组中去
+                         if (item.name.indexOf(keywords) != -1) {
+                             newlist.push(item)
+                         }
+                     });
+                     return newlist
+
+                     // 第二种方法
+                    //  var newlist = this.list.filter(item=>{
+                    //      if (item.name.includes(keywords)) {
+                    //          return item
+                    //      }
+                    //  })
+                    //  return newlist
+                }
+
+                
+
+            }
+        });
+    </script>
+</body>
+
+</html>

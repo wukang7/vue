@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <input type="button" @click="jump()" value="浪起来">
+        <input type="button" @click="stop()" value="别浪">
+        <h4>{{msg}}</h4>
+    </div>
+    <script src="./lib/vue.js"></script>
+    <script>
+        // 在vm实例中,想要调用data上的数据,或者想要调用methods中的方法,必须通过this.数据属性名 或者this.方法名字
+        var vm = new Vue({
+            el:"#app",
+            data:{
+                msg:'猥琐发育,别浪~~',
+                setIntervalid:null,
+            },
+            methods: {
+                jump(){
+                    if(this.setIntervalid != null){
+                        return
+                    }
+                    this.setIntervalid = setInterval( () => {
+                        var start = this.msg.substring(0, 1)
+                        var end = this.msg.substring(1)
+                        var newstr = end + start
+                        this.msg = newstr
+                        console.log(this.msg)
+                    },100)
+                },
+                stop(){
+                    // var interval = setInterval(this.setIntervalid, 2000); //启动,func不能使用括号
+                    clearInterval(this.setIntervalid);//停止
+                    this.setIntervalid = null;
+                }
+            },
+        })
+    </script>
+</body>
+</html>

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.staticfile.org/vue/2.2.2/vue.min.js"></script>
+    <style>
+        .inner {
+            height: 150px;
+            background: blue;
+            width: 300px;
+        }
+        .outer {
+            padding-top: 20px;
+            padding-left: 20px;
+            height: 300px;
+            width: 400px;
+            background:brown;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="app">
+
+        <!-- 默认会先调用里面的方法,在调用外面的方法,从里到外 .stop 阻止冒泡  -->
+        <!-- <div class="inner" @click="innerclick">
+            <input type="button" value="按钮" @click.stop="btnclick">
+        </div> -->
+
+        <!-- .capture 使用事件捕获,从外到里 -->
+        <!-- <div class="inner" @click.capture="innerclick">
+            <input type="button" value="按钮" @click="btnclick">
+        </div> -->
+
+        <!-- .self 实现只有点击自己才会执行 -->
+        <!-- <div class="inner" @click.self="innerclick">
+            <input type="button" value="按钮" @click="btnclick">
+        </div> -->
+
+        <!-- .prevent 阻止默认行为 -->
+        <a href="http://www.baidu.com" @click.prevent="linkbaidu">跳转至百度</a>
+
+        <!-- .prevent 阻止默认行为 .once 只会执行一次 可以串联使用-->
+        <a href="http://www.baidu.com" @click.prevent.once="linkbaidu">跳转至百度</a>
+
+
+        <!-- 演示.stop 跟 .self的区别  .self只会阻止自己,并不会阻止事件冒泡-->
+        <div class="outer" @click="outerclick">
+            <div class="inner" @click.self="innerclick">
+                <input type="button" value="按钮" @click="btnclick">
+            </div>
+        </div>
+
+        <br>
+        
+        <!-- 演示.stop 跟 .self的区别  .stop会阻止事件冒泡-->
+        <div class="outer" @click="outerclick">
+            <div class="inner" @click="innerclick">
+                <input type="button" value="按钮" @click.stop="btnclick">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        var vm = new Vue({
+            el: '#app',
+            data: {},
+            methods: {
+                innerclick() {
+                    console.log("我是inner")
+                },
+                btnclick() {
+                    console.log("我是按钮")
+                },
+                linkbaidu() {
+                    console.log("跳转至百度")
+                },
+                outerclick(){
+                    console.log("我是outer")
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

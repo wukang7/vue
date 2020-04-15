@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./lib/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <h1>{{currentDate | dateformat}}</h1>
+    </div>
+    <script>
+    // 定义一个过滤器，名字叫做dateformat，可以接受一个参数，判断参数要什么格式，如果是yyyy-mm-dd,就会显示年月日,否则显示具体时间.
+    Vue.filter("dateformat", function (datestr, patten = "") {
+        dt = new Date(datestr);
+        y = dt.getFullYear();
+        m = dt.getMonth() + 1
+        d = dt.getDate()
+
+        if (patten.toLocaleLowerCase === 'yyyy-mm-dd') {
+            return `${y}-${m}-${d}`
+        } else {
+            hh = dt.getHours()
+            mm = dt.getMinutes()
+            ss = dt.getSeconds()
+            return `${y}-${m}-${d} ${hh}:${mm}:${ss}`
+        }
+
+
+    })
+
+        var vm=new Vue({
+           el:'#app',
+           data:{
+               currentDate: new Date()
+           },
+           methods:{},
+        //    filters过滤器,如果全局过滤器跟局部过滤器一样,那么就近原则,先用局部过滤器,再用全局过滤器
+           filters:{
+               dateformat:function(datestr, patten = ""){
+                   dt = new Date(datestr);
+                   y = dt.getFullYear().toString().padStart(2, '0');
+
+                //    .padStart(2, '0') 填充两位,从开头填充
+                //    .padEnd(2, '0') 填充两位,从尾部填充
+                   m = (dt.getMonth() + 1).toString().padStart(2, '0')
+                   d = dt.getDate().toString().padStart(2, '0')
+
+                   if (patten.toLocaleLowerCase === 'yyyy-mm-dd') {
+                       return `${y}-${m}-${d}`
+                   } else {
+                       a = new Date()
+                       hh = dt.getHours().toString().padStart(2, '0')
+                       mm = dt.getMinutes().toString().padStart(2,'0')
+                       ss = dt.getSeconds().toString().padStart(2, '0')
+                       return `${y}-${m}-${d} ${hh}:${mm}:${ss} ~~~~~~~~~~~~~~~~~~`
+                   }
+               }
+           }
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./lib/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <!-- 使用过滤器 ,过滤器可以重复使用,并且可以传参,类似grep...-->
+        <p> {{ msg |up |chang("长长")}} </p>
+    </div>
+    <script>
+        // 定义一个全局过滤器名字叫做up,
+        Vue.filter('up', function (data) {
+            // replace 第一个参数除了可以写一个字符串，也可以写正则。
+            msg = data.replace(/小小/g, "大大")
+            return msg
+        })
+
+        // 定义第二个过滤器,名字叫做chang
+        Vue.filter('chang', function (data, arg1) {
+            // replace 第一个参数除了可以写一个字符串，也可以写正则。
+            msg = data.replace(/大大/g, arg1)
+            return msg
+        })
+
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                msg: "我是一个人,有小小的眼睛,小小的嘴巴,小小的耳朵!"
+            },
+            methods: {}
+        });
+    </script>
+</body>
+</html>

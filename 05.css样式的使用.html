@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./lib/vue.js"></script>
+    <style>
+        .red{
+            /* 红色字体 */
+            color: red;
+        }
+        .thin{
+            /* 设置字体的粗细 200算细一点的 */
+            font-weight: 200;
+        }
+        .italic{
+            /*斜体  */
+            font-style: italic;
+        }
+        .active{
+            /* 间隔 */
+            letter-spacing: 0.5em;  
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <!-- <h1 class="thin red italic active">这个是一个文本</h1> -->
+
+        <!-- 第一种方式 v-bind绑定,用数组,单引号引起来 -->
+        <h1 :class="['thin','red']">这个是一个文本</h1>
+
+        <!-- 第一种方式可以在数组里面使用三元表达式 条件?a:b  条件为真则执行a,假执行b   flag ? 'red' : '' -->
+        <h1 :class="['active',flag ? 'red' : '']">这个是一个文本</h1>
+
+        <!-- 在数组中使用对象代替三元表达式,提高代码的可读性 {'red':flag}-->
+        <h1 :class="['active',{'red':flag}]">这个是一个文本</h1>
+
+        <!-- 直接使用对象,对象的属性是类名,对象的属性可以带引号,也可以不带引号,属性的值是一个表示符 -->
+        <h1 :class="{red:false,active:true,italic:true}">这个是一个文本</h1>
+
+        <h1 :class="classObj">这个是一个文本</h1>
+
+    </div>
+    <script>
+        var vm=new Vue({
+           el:'#app',
+           data:{
+               flag:true,
+               classObj:{
+                    red: false, 
+                    active: true, 
+                    italic: true,
+                    thin:true
+                }
+           },
+           methods:{}
+        });
+    </script>
+</body>
+
+</html>
