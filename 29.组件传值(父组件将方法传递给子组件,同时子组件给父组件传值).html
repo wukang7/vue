@@ -15,14 +15,15 @@
         <div>
             <h1>这是使用template创建出来的组件,有提示和语法功能</h1>
             <h3>不错,非常好用</h3>
-            <h1>我是子组件-------{{ name11 }}</h1>
+            <h1>我是子组件-------{{ parentmsg }}</h1>
+            <input type="button" value="我是子组件,点击它触发父组件show方法" @click="click1">
         </div>
     </template>
 
 
     <div id="app">
         <!-- 调用组件,通过属性绑定的方式传递给子组件内 -->
-        <mycom3 v-bind:parentmsg="msg"></mycom3>
+        <mycom3 v-bind:parentmsg="msg" v-on:func="show"></mycom3>
     </div>
 
 
@@ -33,12 +34,24 @@
             template: "#mytmp",
 
             // 子组件接收的父组件,必须把属性写入props列表里面,props里面都是只读的
-            props:['parentmsg'],
+            props: ['parentmsg'],
             // data里面都是可读可写的,子组件的数据可以通过ajax请求回来的数据放到data身上
-            data:function(){
-                return{
+            data: function () {
+                return {
+                    person:{
+                        name:"大头儿子",
+                        age:6
+                    },
+
                     title: "qqq",
                     content: "www"
+                }
+            },
+            methods:{
+                click1(){
+
+                    // 点击子组件的方法,触发父类的方法,同时把子类data的person传递给父类
+                    this.$emit('func',this.person)
                 }
             }
         })
@@ -46,9 +59,16 @@
         var vm = new Vue({
             el: '#app',
             data: {
-                msg:"我是父组件的msg"
+                msg: "我是父组件的msg-data   ",
+                msg2:""
             },
-            methods: {}
+            methods: {
+                // data是子类传递过来的person对象
+                show(data){
+                    console.log("父组件的show方法")
+                    this.msg = this.msg + data.name
+                }
+            }
         });
 
     </script>
