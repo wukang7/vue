@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./lib/vue.js"></script>
+</head>
+
+<body>
+    <!-- mytep定义 -->
+    <template id="mytmp">
+        <div>
+            <h1>这是使用template创建出来的组件,有提示和语法功能</h1>
+            <h3>不错,非常好用</h3>
+        </div>
+    </template>
+
+    <div id="app">
+        <!-- 调用组件 -->
+        <mycom3></mycom3>
+    </div>
+
+    <script>
+        Vue.component('mycom3', {
+            // 组件使用一个定义了一个id为mytmp
+            template: "#mytmp"
+        })
+
+        var vm = new Vue({
+            el: '#app',
+            data: {},
+            methods: {}
+        });
+    </script>
+</body>
+
+</html>

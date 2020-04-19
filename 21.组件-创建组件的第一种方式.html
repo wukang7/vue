@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./lib/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <!-- 第三步:使用第二部组件的名称 -->
+        <mycom1></mycom1>
+    </div>
+    <script>
+        // 第一步: 使用Vue.extend来创建全局的Vue组件
+        var com1 = Vue.extend({
+            template: '<h1>我是extend创建出来的</h1>',
+        })
+
+        // 第二步: 使用Vue.component('组件的名称',创建出来的组件模板对象)
+        // 如果mycom1是驼峰式的myCom1,第三步调用就是<my-com1></my-com1>
+        Vue.component('mycom1', com1)
+
+        //可以省略第一步,直接把第一步的函数放进来,通常这种用的比较多
+        // Vue.component('mycom1', Vue.extend({
+        //     template: '<h1>我是extend创建出来的</h1>',
+        // }))
+
+        var vm = new Vue({
+            el: '#app',
+            data: {},
+            methods: {}
+        });
+    </script>
+</body>
+
+</html>

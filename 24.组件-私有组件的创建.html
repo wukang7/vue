@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./lib/vue.js"></script>
+</head>
+
+<body>
+    <!-- mytep定义 -->
+    <template id="mytmp">
+        <div>
+            <h1>这是使用template创建出来的组件,有提示和语法功能</h1>
+            <h3>不错,非常好用</h3>
+        </div>
+    </template>
+
+    <template id="tmplogin">
+        <h2>tmplogin这是一个登陆组件</h2>
+    </template>
+
+    <div id="app">
+        <!-- 调用组件 -->
+        <mycom3></mycom3>
+    </div>
+
+
+    <div id="app2">
+        <!-- 调用组件 -->
+        <mycom3></mycom3>
+        <login></login>
+    </div>
+
+    <script>
+        Vue.component('mycom3', {
+            // 组件使用一个定义了一个id为mytmp
+            template: "#mytmp"
+        })
+
+        var vm = new Vue({
+            el: '#app',
+            data: {},
+            methods: {}
+        });
+
+        var vm2 = new Vue({
+            el: '#app2',
+            data: {},
+            methods: {},
+            // 在vm2中定义一个私有组件
+            components:{
+                login:{
+                    // template: '<span>这是登陆模块</span>'
+                    template: '#tmplogin'
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>
