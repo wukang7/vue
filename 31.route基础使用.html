@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./lib/vue.js"></script>
+    <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <a href="#/login" >登陆</a>
+        <a href="#/register" >注册</a>
+
+        <router-view></router-view>
+
+        <!--router-link标签上面a标签效果一样  -->
+        <router-link to="/login" tag="span">登录</router-link>
+        <router-link to="/register">注册</router-link>
+
+    </div>
+
+
+
+
+    <script>
+        var register = {
+            template: "<div><h1> 注册页面</h1></div >"
+        }
+        var login = {
+            template: "<div><h1> 登录页面</h1></div >"
+        }
+
+        router = new VueRouter({
+            routes: [
+                // 请求的是根路径就重定向#/login登陆页面
+                { path: '/', redirect: "/login" },
+                { path: '/login', component: login },
+                { path: '/register', component: register }
+            ]
+            // routes // (缩写) 相当于 routes: routes
+        })
+
+        var vm = new Vue({
+            el: '#app',
+            data: {},
+            methods: {},
+            router: router
+        });
+    </script>
+</body>
+
+</html>
